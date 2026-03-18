@@ -2,178 +2,613 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>La Vall d’Uixó & Costa — Guía de la Familia Ballesteros</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Italia 2026 · Viaje Familiar</title>
   <style>
-    body { font-family: Inter, sans-serif; background:#f6f8fb; }
-    .hero { background-image: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.5)), url('https://upload.wikimedia.org/wikipedia/commons/f/f9/Coves_de_Sant_Josep_-_La_Vall_d%27Uix%C3%B3.jpg'); background-size:cover; background-position:center; color:#fff; }
-    .map-embed { border:0; width:100%; height:360px; border-radius:.75rem; }
+    :root{
+      --bg:#f6f3ee;
+      --card:#ffffff;
+      --ink:#22313f;
+      --muted:#6b7280;
+      --line:#e6dfd6;
+      --blue:#dceeff;
+      --green:#e6f6df;
+      --sand:#f8ead8;
+      --coral:#ffe1d6;
+      --gold:#fff2bf;
+      --shadow:0 10px 30px rgba(28,33,40,.08);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    h1,h2,h3,h4,p{margin:0}
+    .wrap{max-width:1400px;margin:0 auto;padding:24px}
+    .hero{
+      background:linear-gradient(135deg,#fff 0%,#fffaf1 100%);
+      border:1px solid var(--line);
+      border-radius:32px;
+      box-shadow:var(--shadow);
+      padding:28px;
+      display:grid;
+      grid-template-columns:1.3fr .9fr;
+      gap:22px;
+    }
+    .hero h1{
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:44px;
+      line-height:1;
+      margin-bottom:10px;
+    }
+    .hero .sub{font-size:18px;color:var(--muted);margin-bottom:16px}
+    .route{
+      display:flex;flex-wrap:wrap;gap:10px;margin-top:14px
+    }
+    .pill{
+      padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:14px
+    }
+    .stats{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:14px
+    }
+    .stat{
+      background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)
+    }
+    .stat .n{font-size:28px;font-weight:800}
+    .stat .l{font-size:13px;color:var(--muted);margin-top:6px}
+    .toolbar{
+      margin:18px 0 22px;
+      display:flex;flex-wrap:wrap;gap:12px;align-items:center
+    }
+    .toolbar input,.toolbar select{
+      background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--ink)
+    }
+    .toolbar button{
+      border:0;background:var(--ink);color:#fff;border-radius:14px;padding:12px 16px;font-weight:700;cursor:pointer
+    }
+    .legend{display:flex;flex-wrap:wrap;gap:8px}
+    .legend span{
+      font-size:12px;padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:#fff
+    }
+
+    .weeks{
+      display:grid;gap:22px;
+    }
+    .week{
+      border:1px solid var(--line);border-radius:28px;background:rgba(255,255,255,.75);box-shadow:var(--shadow);overflow:hidden
+    }
+    .week-head{
+      padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px
+    }
+    .week-head h2{
+      font-family:Georgia,"Times New Roman",serif;font-size:28px
+    }
+    .week-head .range{color:var(--muted);font-size:15px}
+    .days{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:0;
+    }
+    .day{
+      min-height:330px;
+      background:#fff;
+      border-right:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      padding:16px 14px 14px;
+      display:flex;flex-direction:column;gap:10px;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+    .day:hover{background:#fffdf8}
+    .day:last-child{border-right:0}
+    .date{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+    .date .num{font-weight:800;font-size:20px}
+    .date .daynum{
+      font-size:12px;color:var(--muted);background:#f7f5f1;border:1px solid var(--line);
+      padding:5px 8px;border-radius:999px
+    }
+    .base{
+      font-weight:700;font-size:14px
+    }
+    .temp{
+      display:inline-flex;align-items:center;gap:6px;
+      width:max-content;padding:7px 10px;border-radius:999px;background:#f8f7f4;border:1px solid var(--line);font-size:12px
+    }
+    .region{
+      font-size:12px;color:var(--muted)
+    }
+    .must{
+      font-size:13px;line-height:1.4;color:var(--ink)
+    }
+    .must ul{margin:6px 0 0 18px;padding:0}
+    .must li{margin:4px 0}
+    .meta{
+      margin-top:auto;display:grid;gap:8px
+    }
+    .tag{
+      display:inline-block;width:max-content;font-size:11px;padding:6px 9px;border-radius:999px;border:1px solid var(--line);background:#fff
+    }
+    .rest{
+      font-size:12px;line-height:1.35;padding:10px;border-radius:14px;background:#faf7f1;border:1px solid var(--line)
+    }
+    .lake{background:linear-gradient(180deg,var(--blue),#fff)}
+    .tuscany{background:linear-gradient(180deg,var(--green),#fff)}
+    .puglia{background:linear-gradient(180deg,var(--sand),#fff)}
+    .sicily{background:linear-gradient(180deg,var(--coral),#fff)}
+    .highlight{background:linear-gradient(180deg,var(--gold),#fff)}
+
+    .modal{
+      position:fixed;inset:0;background:rgba(18,24,33,.45);display:none;align-items:center;justify-content:center;padding:22px;z-index:1000
+    }
+    .modal.show{display:flex}
+    .sheet{
+      width:min(980px,100%);
+      max-height:90vh;
+      overflow:auto;
+      background:#fff;border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.22);
+      padding:24px;border:1px solid var(--line)
+    }
+    .sheet-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}
+    .sheet h3{font-family:Georgia,"Times New Roman",serif;font-size:34px}
+    .close{
+      border:0;background:#f3f4f6;padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:700
+    }
+    .sheet-grid{
+      display:grid;grid-template-columns:1.1fr .9fr;gap:18px
+    }
+    .panel{
+      border:1px solid var(--line);border-radius:20px;padding:18px;background:#fff
+    }
+    .panel h4{font-size:16px;margin-bottom:12px}
+    .checklist{display:grid;gap:10px}
+    .check{
+      display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:#faf7f1
+    }
+    .check b{display:block;margin-bottom:4px}
+    .small{font-size:13px;color:var(--muted);line-height:1.5}
+    .reserve-yes{color:#8a3a00;font-weight:700}
+    .reserve-no{color:#2b6c3b;font-weight:700}
+    .footer-note{
+      margin-top:18px;padding:14px 16px;border-radius:16px;background:#f7f5f1;border:1px solid var(--line);font-size:13px;color:var(--muted)
+    }
+
+    @media (max-width:1100px){
+      .hero{grid-template-columns:1fr}
+      .days{grid-template-columns:repeat(2,1fr)}
+      .sheet-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:700px){
+      .wrap{padding:14px}
+      .hero h1{font-size:34px}
+      .days{grid-template-columns:1fr}
+      .day{min-height:auto}
+    }
+
+    @media print{
+      @page{size:A4 landscape;margin:10mm}
+      body{background:#fff}
+      .toolbar,.modal{display:none !important}
+      .wrap{max-width:none;padding:0}
+      .hero{box-shadow:none;border:1px solid #ccc;margin-bottom:10px}
+      .week{break-inside:avoid;box-shadow:none}
+      .days{grid-template-columns:repeat(7,1fr)}
+      .day{min-height:240px}
+    }
   </style>
 </head>
 <body>
-  <header class="hero py-5 text-center">
-    <div class="container">
-      <h1 class="fw-bold">La Vall d’Uixó & Costa</h1>
-      <p class="lead">Naturaleza, playas, miradores y gastronomía para familias con niños</p>
-      <a href="#lugares" class="btn btn-primary"><i class="bi bi-flag"></i> Explorar</a>
-    </div>
-  </header>
-
-  <main class="container my-5">
-    <section id="lugares" class="mb-5">
-      <h2 class="fw-bold mb-3">Lugares recomendados</h2>
-      <div class="accordion" id="accLugares">
-        <div class="accordion-item">
-          <h3 class="accordion-header">
-            <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#c1">
-              <i class="bi bi-water me-2 text-primary"></i> Coves de Sant Josep
-            </button>
-          </h3>
-          <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#accLugares">
-            <div class="accordion-body">
-              <p>Río subterráneo navegable más largo de Europa. Visita en barca apta para carrito de bebé. <a href="https://www.google.com/maps/search/?api=1&query=Coves+de+Sant+Josep" target="_blank">Ver en Maps</a></p>
-            </div>
-          </div>
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <h1>Italia 2026</h1>
+        <div class="sub">Cronograma visual del viaje · listo para imprimir · 35 días</div>
+        <div class="route">
+          <span class="pill">🏔️ Lago di Garda</span>
+          <span class="pill">🍷 Chianti</span>
+          <span class="pill">🌿 Val d’Orcia</span>
+          <span class="pill">🌊 Puglia</span>
+          <span class="pill">🏖️ Fontane Bianche</span>
+          <span class="pill">🌋 Taormina</span>
+          <span class="pill">🏝️ Cefalù</span>
         </div>
-        <div class="accordion-item">
-          <h3 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c2">
-              <i class="bi bi-tree me-2 text-primary"></i> Marjal dels Estanys (Almenara)
-            </button>
-          </h3>
-          <div id="c2" class="accordion-collapse collapse" data-bs-parent="#accLugares">
-            <div class="accordion-body">
-              <p>Humedal protegido con observatorios de aves y pasarelas. Ideal para paseo tranquilo con niños. <a href="https://www.google.com/maps/search/?api=1&query=Marjal+dels+Estanys+Almenara" target="_blank">Ver en Maps</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h3 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c3">
-              <i class="bi bi-brightness-high me-2 text-primary"></i> Playa de Moncofa
-            </button>
-          </h3>
-          <div id="c3" class="accordion-collapse collapse" data-bs-parent="#accLugares">
-            <div class="accordion-body">
-              <p>Amplia y con paseo marítimo, zonas de juego y fácil acceso. <a href="https://www.google.com/maps/search/?api=1&query=Playa+de+Moncofa" target="_blank">Ver en Maps</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h3 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c4">
-              <i class="bi bi-geo-alt me-2 text-primary"></i> Serra d’Espadà (miradores)
-            </button>
-          </h3>
-          <div id="c4" class="accordion-collapse collapse" data-bs-parent="#accLugares">
-            <div class="accordion-body">
-              <p>Parque natural con senderos cortos y miradores panorámicos. <a href="https://www.google.com/maps/search/?api=1&query=Parc+Natural+Serra+d%27Espad%C3%A0" target="_blank">Ver en Maps</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h3 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c5">
-              <i class="bi bi-tree-fill me-2 text-primary"></i> Desert de les Palmes
-            </button>
-          </h3>
-          <div id="c5" class="accordion-collapse collapse" data-bs-parent="#accLugares">
-            <div class="accordion-body">
-              <p>Espacio natural con vistas al Mediterráneo y áreas de picnic. <a href="https://www.google.com/maps/search/?api=1&query=Desert+de+les+Palmes" target="_blank">Ver en Maps</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h3 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c6">
-              <i class="bi bi-sun me-2 text-primary"></i> Playa de Nules
-            </button>
-          </h3>
-          <div id="c6" class="accordion-collapse collapse" data-bs-parent="#accLugares">
-            <div class="accordion-body">
-              <p>Tranquila, ideal para familias. <a href="https://www.google.com/maps/search/?api=1&query=Playa+de+Nules" target="_blank">Ver en Maps</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h3 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c7">
-              <i class="bi bi-building me-2 text-primary"></i> Castillo de Xivert
-            </button>
-          </h3>
-          <div id="c7" class="accordion-collapse collapse" data-bs-parent="#accLugares">
-            <div class="accordion-body">
-              <p>Ruinas con historia templaria y vistas de la costa. <a href="https://www.google.com/maps/search/?api=1&query=Castillo+de+Xivert" target="_blank">Ver en Maps</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h3 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c8">
-              <i class="bi bi-flower1 me-2 text-primary"></i> Jardines de Peñíscola
-            </button>
-          </h3>
-          <div id="c8" class="accordion-collapse collapse" data-bs-parent="#accLugares">
-            <div class="accordion-body">
-              <p>Áreas verdes junto al mar. <a href="https://www.google.com/maps/search/?api=1&query=Peñíscola" target="_blank">Ver en Maps</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h3 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c9">
-              <i class="bi bi-water me-2 text-primary"></i> Playa de Almenara
-            </button>
-          </h3>
-          <div id="c9" class="accordion-collapse collapse" data-bs-parent="#accLugares">
-            <div class="accordion-body">
-              <p>Playa tranquila con dunas y zona de paseo. <a href="https://www.google.com/maps/search/?api=1&query=Playa+de+Almenara" target="_blank">Ver en Maps</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h3 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c10">
-              <i class="bi bi-star me-2 text-primary"></i> Mirador de la Bartola
-            </button>
-          </h3>
-          <div id="c10" class="accordion-collapse collapse" data-bs-parent="#accLugares">
-            <div class="accordion-body">
-              <p>Vistas panorámicas de la costa de Castellón. <a href="https://www.google.com/maps/search/?api=1&query=Mirador+de+la+Bartola" target="_blank">Ver en Maps</a></p>
-            </div>
-          </div>
-        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="n">35</div><div class="l">días de viaje</div></div>
+        <div class="stat"><div class="n">7</div><div class="l">bases / estancias</div></div>
+        <div class="stat"><div class="n">⭐</div><div class="l">haz clic en cualquier día para ver el detalle completo</div></div>
+        <div class="stat"><div class="n">🖨️</div><div class="l">usa “Imprimir” para sacar el planner en PDF o papel</div></div>
       </div>
     </section>
 
-    <section id="comer" class="mb-5">
-      <h2 class="fw-bold mb-3">Dónde comer y cenar</h2>
-      <ul>
-        <li><a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Piero+La+Vall+d%27Uix%C3%B3" target="_blank">Restaurante Piero</a> — Cocina mediterránea, menú infantil.</li>
-        <li><a href="https://www.google.com/maps/search/?api=1&query=Bar+La+Granja+La+Vall+d%27Uix%C3%B3" target="_blank">Bar La Granja</a> — Tapas y ambiente familiar.</li>
-        <li><a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Ca+Vicent+La+Vall+d%27Uix%C3%B3" target="_blank">Ca Vicent</a> — Arroces y cocina casera.</li>
-        <li><a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Voramar+Moncofa" target="_blank">Voramar (Moncofa)</a> — Frente al mar, paellas y pescado.</li>
-        <li><a href="https://www.google.com/maps/search/?api=1&query=La+Molt+Bona+Moncofa" target="_blank">La Molt Bona</a> — Pizzas artesanas y menú para niños.</li>
-        <li><a href="https://www.google.com/maps/search/?api=1&query=Hamburgueseria+M%C3%ADo+Moncofa" target="_blank">Hamburguesería Mío</a> — Hamburguesas gourmet.</li>
-        <li><a href="https://www.google.com/maps/search/?api=1&query=Restaurante+El+Palmar+Grao+de+Castell%C3%B3n" target="_blank">El Palmar</a> — Paellas y marisco.</li>
-        <li><a href="https://www.google.com/maps/search/?api=1&query=Pizzeria+Di+Fratelli+Nules" target="_blank">Pizzería Di Fratelli</a> — Pizzas y pasta, opción sin gluten.</li>
-        <li><a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Braseria+El+Raco+Onda" target="_blank">Brasa El Racó</a> — Carnes a la brasa y menú infantil.</li>
-        <li><strong>Extra lujo:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Cal+Parad%C3%ADs+Castell%C3%B3n" target="_blank">Cal Paradís</a> — 1 estrella Michelin, experiencia gastronómica única.</li>
-      </ul>
-    </section>
+    <div class="toolbar">
+      <input id="search" type="text" placeholder="Buscar ciudad, museo, restaurante..." />
+      <select id="regionFilter">
+        <option value="">Todas las regiones</option>
+        <option value="Lago di Garda">Lago di Garda</option>
+        <option value="Chianti">Chianti</option>
+        <option value="Val d’Orcia">Val d’Orcia</option>
+        <option value="Puglia">Puglia</option>
+        <option value="Fontane Bianche">Fontane Bianche</option>
+        <option value="Taormina">Taormina</option>
+        <option value="Cefalù">Cefalù</option>
+        <option value="Salida">Salida</option>
+      </select>
+      <select id="typeFilter">
+        <option value="">Todos los tipos</option>
+        <option value="cultura">Cultura</option>
+        <option value="pueblo">Pueblo</option>
+        <option value="playa">Playa</option>
+        <option value="relax">Relax</option>
+        <option value="naturaleza">Naturaleza</option>
+        <option value="vino">Vino</option>
+        <option value="ciudad">Ciudad</option>
+      </select>
+      <button onclick="window.print()">Imprimir</button>
+      <div class="legend">
+        <span>⭐ imprescindible</span>
+        <span>⚠️ reservar</span>
+        <span>🍝 restaurante sugerido</span>
+        <span>🌡️ min / max</span>
+      </div>
+    </div>
 
-    <section id="mapa" class="mb-5">
-      <h2 class="fw-bold mb-3">Mapa general</h2>
-      <iframe class="map-embed" src="https://www.google.com/maps/@39.820052,-0.2450496,15z?entry=ttu&g_ep=EgoyMDI1MDgwNS4wIKXMDSoASAFQAw%3D%3D" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </section>
-  </main>
+    <section id="weeks" class="weeks"></section>
+  </div>
 
-  <footer class="border-top bg-white py-4 small text-center">
-    © 2025 — Guía familiar La Vall d’Uixó & Costa. Revisar horarios y condiciones en sitios oficiales.
-  </footer>
+  <div class="modal" id="modal">
+    <div class="sheet">
+      <div class="sheet-top">
+        <div>
+          <h3 id="mTitle"></h3>
+          <div class="small" id="mSub"></div>
+        </div>
+        <button class="close" onclick="closeModal()">Cerrar</button>
+      </div>
+      <div class="sheet-grid">
+        <div class="panel">
+          <h4>🗺️ Plan del día</h4>
+          <div id="mPlan" class="checklist"></div>
+        </div>
+        <div class="panel">
+          <h4>🍝 Restaurante sugerido</h4>
+          <div id="mRest"></div>
+          <div style="height:14px"></div>
+          <h4>ℹ️ Notas</h4>
+          <div id="mNotes" class="small"></div>
+        </div>
+      </div>
+      <div class="footer-note">
+        Consejo de uso: este calendario está pensado para verse por semanas. Para familias, los días de playa o relax ayudan a equilibrar los días más intensos de ciudades, museos y traslados.
+      </div>
+    </div>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const trip = [
+      {day:1,date:"26 abr",week:1,region:"Lago di Garda",base:"Sirmione",min:10,max:20,type:["relax","pueblo"],theme:"lake",highlight:true,
+        title:"Llegada a Sirmione",
+        must:["Castello Scaligero","Paseo por el casco histórico","Orilla del lago al atardecer"],
+        restaurant:{name:"La Speranzina",meal:"Cena",reserve:"Sí"},
+        notes:"Día suave. Ideal para instalarse, caminar sin prisa y cenar con vista al lago."},
+      {day:2,date:"27 abr",week:1,region:"Lago di Garda",base:"Sirmione",min:11,max:21,type:["cultura","relax"],theme:"lake",
+        title:"Sirmione histórico",
+        must:["Grotte di Catullo","Calles del centro histórico","Paseo junto al lago"],
+        restaurant:{name:"Trattoria La Fiasca",meal:"Almuerzo o cena",reserve:"No"},
+        notes:"Las Grotte di Catullo son lo más emblemático del pueblo después del castillo."},
+      {day:3,date:"28 abr",week:1,region:"Lago di Garda",base:"Sirmione",min:12,max:22,type:["naturaleza","pueblo"],theme:"lake",highlight:true,
+        title:"Malcesine + Monte Baldo",
+        must:["Pueblo medieval de Malcesine","Teleférico a Monte Baldo","Miradores panorámicos del lago"],
+        restaurant:{name:"Al Gondoliere",meal:"Cena",reserve:"Sí"},
+        notes:"Uno de los días más bonitos del norte. Llevar una capa ligera por la altura."},
+      {day:4,date:"29 abr",week:1,region:"Lago di Garda",base:"Sirmione",min:12,max:22,type:["naturaleza","pueblo"],theme:"lake",highlight:true,
+        title:"Limone + Tremosine",
+        must:["Puerto de Limone sul Garda","Limonares","Mirador de Tremosine / Strada della Forra"],
+        restaurant:{name:"Terrazza del Brivido",meal:"Cena",reserve:"Sí"},
+        notes:"Cena estrella del lago. Reservar con anticipación."},
+      {day:5,date:"30 abr",week:1,region:"Lago di Garda",base:"Sirmione",min:13,max:23,type:["ciudad","cultura"],theme:"lake",
+        title:"Excursión a Verona",
+        must:["Arena di Verona","Casa de Julieta","Piazza delle Erbe"],
+        restaurant:{name:"Osteria Le Vecete",meal:"Cena",reserve:"Sí"},
+        notes:"Buen día de ciudad. Conviene salir temprano."},
+      {day:6,date:"1 may",week:1,region:"Lago di Garda",base:"Sirmione",min:13,max:23,type:["relax","playa"],theme:"lake",
+        title:"Día lago",
+        must:["Paseo en barco","Tiempo libre","Descanso frente al agua"],
+        restaurant:{name:"La Rucola",meal:"Cena",reserve:"No"},
+        notes:"Día de respiro antes del cambio a Toscana."},
+
+      {day:7,date:"2 may",week:1,region:"Chianti",base:"Radda in Chianti",min:11,max:22,type:["vino","relax"],theme:"tuscany",
+        title:"Llegada a Chianti",
+        must:["Check-in en agriturismo","Paseo entre viñedos","Pueblo de Volpaia o Radda"],
+        restaurant:{name:"La Bottega di Volpaia",meal:"Cena",reserve:"Sí"},
+        notes:"Día perfecto para bajar ritmo y empezar Toscana en plan paisaje + vino."},
+      {day:8,date:"3 may",week:2,region:"Chianti",base:"Radda in Chianti",min:12,max:23,type:["ciudad","cultura"],theme:"tuscany",highlight:true,
+        title:"Florencia imprescindible",
+        must:["Duomo di Firenze","Galería Uffizi","Ponte Vecchio"],
+        restaurant:{name:"Trattoria Cammillo",meal:"Cena",reserve:"Sí"},
+        notes:"Uffizi es la visita clave. Reservar entrada si quieren evitar filas."},
+      {day:9,date:"4 may",week:2,region:"Chianti",base:"Radda in Chianti",min:12,max:23,type:["pueblo","cultura"],theme:"tuscany",
+        title:"Siena + Monteriggioni",
+        must:["Piazza del Campo","Catedral de Siena","Murallas de Monteriggioni"],
+        restaurant:{name:"La Taverna di San Giuseppe",meal:"Cena",reserve:"Sí"},
+        notes:"Día muy visual. Siena tiene uno de los centros históricos más bonitos del viaje."},
+      {day:10,date:"5 may",week:2,region:"Chianti",base:"Radda in Chianti",min:13,max:24,type:["ciudad","cultura"],theme:"tuscany",highlight:true,
+        title:"Pisa + Lucca",
+        must:["Torre de Pisa","Campo dei Miracoli","Murallas de Lucca en bici o caminando"],
+        restaurant:{name:"Osteria Baralla",meal:"Cena",reserve:"No"},
+        notes:"En Pisa, lo imperdible es subir a la torre si consiguen cupo."},
+
+      {day:11,date:"6 may",week:2,region:"Val d’Orcia",base:"Pienza",min:12,max:24,type:["pueblo","relax"],theme:"tuscany",
+        title:"Traslado + San Gimignano",
+        must:["Torre Grossa","Calles medievales","Helado en el centro histórico"],
+        restaurant:{name:"La Porta",meal:"Cena",reserve:"Sí"},
+        notes:"Cena con vista top. San Gimignano es ideal para fotos y paseo tranquilo."},
+      {day:12,date:"7 may",week:2,region:"Val d’Orcia",base:"Pienza",min:12,max:25,type:["vino","pueblo"],theme:"tuscany",highlight:true,
+        title:"Montepulciano",
+        must:["Piazza Grande","Bodega subterránea","Miradores del pueblo"],
+        restaurant:{name:"Osteria Acquacheta",meal:"Cena",reserve:"Sí"},
+        notes:"Uno de los grandes días de vino. Pueblo muy cinematográfico."},
+      {day:13,date:"8 may",week:2,region:"Val d’Orcia",base:"Pienza",min:13,max:25,type:["vino","cultura"],theme:"tuscany",
+        title:"Montalcino + Sant’Antimo",
+        must:["Fortaleza de Montalcino","Degustación de Brunello","Abbazia di Sant’Antimo"],
+        restaurant:{name:"Osteria Le Logge",meal:"Cena",reserve:"Sí"},
+        notes:"La abadía es la joya escondida del día."},
+      {day:14,date:"9 may",week:2,region:"Val d’Orcia",base:"Pienza",min:13,max:25,type:["relax","naturaleza"],theme:"tuscany",
+        title:"Bagno Vignoni",
+        must:["Plaza termal","Paseo relajado","Spa o tiempo libre"],
+        restaurant:{name:"Trattoria local",meal:"Cena",reserve:"No"},
+        notes:"Día suave para descansar del ritmo de ciudades y carretera."},
+      {day:15,date:"10 may",week:3,region:"Val d’Orcia",base:"Pienza",min:14,max:26,type:["vino","cultura"],theme:"tuscany",highlight:true,
+        title:"Experiencia de vino",
+        must:["Bodega Antinori","Arquitectura de la bodega","Degustación"],
+        restaurant:{name:"Cena en agriturismo",meal:"Cena",reserve:"Sí"},
+        notes:"La visita a bodega conviene reservarla con anticipación."},
+
+      {day:16,date:"11 may",week:3,region:"Puglia",base:"Locorotondo",min:16,max:25,type:["pueblo","relax"],theme:"puglia",
+        title:"Llegada a Locorotondo",
+        must:["Centro histórico blanco","Balcones con flores","Paseo tranquilo"],
+        restaurant:{name:"Bina Ristorante",meal:"Cena",reserve:"Sí"},
+        notes:"Primer contacto con Puglia: muy relajado y fotogénico."},
+      {day:17,date:"12 may",week:3,region:"Puglia",base:"Locorotondo",min:17,max:26,type:["pueblo","cultura"],theme:"puglia",highlight:true,
+        title:"Alberobello",
+        must:["Trulli del Rione Monti","Zona Aia Piccola","Tiendas artesanales"],
+        restaurant:{name:"Trattoria Terra Madre",meal:"Cena",reserve:"Sí"},
+        notes:"Probablemente el pueblo más icónico de Puglia."},
+      {day:18,date:"13 may",week:3,region:"Puglia",base:"Locorotondo",min:18,max:26,type:["playa","pueblo"],theme:"puglia",highlight:true,
+        title:"Polignano a Mare",
+        must:["Lama Monachile","Balcones sobre los acantilados","Casco histórico"],
+        restaurant:{name:"Grotta Palazzese",meal:"Cena",reserve:"Sí"},
+        notes:"Reserva muy importante si quieren esa experiencia concreta."},
+      {day:19,date:"14 may",week:3,region:"Puglia",base:"Locorotondo",min:18,max:26,type:["pueblo","cultura"],theme:"puglia",
+        title:"Ostuni",
+        must:["Ciudad blanca","Catedral","Callejones y miradores"],
+        restaurant:{name:"Osteria del Tempo Perso",meal:"Cena",reserve:"Sí"},
+        notes:"Día precioso para caminar sin mapa."},
+      {day:20,date:"15 may",week:3,region:"Puglia",base:"Locorotondo",min:18,max:27,type:["playa","pueblo"],theme:"puglia",
+        title:"Monopoli",
+        must:["Puerto antiguo","Murallas","Pequeñas playas urbanas"],
+        restaurant:{name:"Il Guazzetto",meal:"Almuerzo",reserve:"No"},
+        notes:"Muy buen día de ritmo suave junto al mar."},
+      {day:21,date:"16 may",week:3,region:"Puglia",base:"Locorotondo",min:19,max:27,type:["relax","playa"],theme:"puglia",
+        title:"Descanso en Puglia",
+        must:["Playa o piscina","Tiempo libre","Lavandería / descanso"],
+        restaurant:{name:"Cena libre",meal:"Cena",reserve:"No"},
+        notes:"Día colchón perfecto antes de Sicilia."},
+
+      {day:22,date:"17 may",week:4,region:"Fontane Bianche",base:"Fontane Bianche",min:18,max:26,type:["playa","relax"],theme:"sicily",
+        title:"Llegada a Sicilia",
+        must:["Check-in","Playa de Fontane Bianche","Atardecer tranquilo"],
+        restaurant:{name:"Restaurante local de playa",meal:"Cena",reserve:"No"},
+        notes:"Base ideal para empezar Sicilia con calma y niños."},
+      {day:23,date:"18 may",week:4,region:"Fontane Bianche",base:"Fontane Bianche",min:18,max:26,type:["pueblo","cultura"],theme:"sicily",highlight:true,
+        title:"Noto",
+        must:["Catedral de Noto","Corso Vittorio Emanuele","Palacios barrocos"],
+        restaurant:{name:"Ristorante Crocifisso",meal:"Cena",reserve:"Sí"},
+        notes:"Noto es el gran día barroco del sureste."},
+      {day:24,date:"19 may",week:4,region:"Fontane Bianche",base:"Fontane Bianche",min:19,max:27,type:["ciudad","cultura"],theme:"sicily",highlight:true,
+        title:"Siracusa + Ortigia",
+        must:["Parque arqueológico o Teatro Griego","Duomo de Ortigia","Mercado de Ortigia","Fonte Aretusa"],
+        restaurant:{name:"Don Camillo",meal:"Cena",reserve:"Sí"},
+        notes:"Uno de los días más completos de Sicilia: historia clásica + casco histórico junto al mar."},
+
+      {day:25,date:"20 may",week:4,region:"Taormina",base:"Taormina",min:17,max:25,type:["pueblo","cultura"],theme:"sicily",highlight:true,
+        title:"Llegada a Taormina",
+        must:["Corso Umberto","Teatro Antico di Taormina","Miradores sobre la costa"],
+        restaurant:{name:"Osteria RossoDiVino",meal:"Cena",reserve:"Sí"},
+        notes:"El teatro griego es imprescindible. Mejor al final de la tarde."},
+      {day:26,date:"21 may",week:4,region:"Taormina",base:"Taormina",min:18,max:26,type:["playa","naturaleza"],theme:"sicily",highlight:true,
+        title:"Isola Bella",
+        must:["Teleférico a la zona de playa","Isola Bella","Paseo en barco o tiempo de mar"],
+        restaurant:{name:"Il Barcaiolo",meal:"Almuerzo",reserve:"No"},
+        notes:"Llevar zapatos de agua. Día muy visual y perfecto para familias."},
+      {day:27,date:"22 may",week:4,region:"Taormina",base:"Taormina",min:15,max:23,type:["naturaleza","vino"],theme:"sicily highlight",highlight:true,
+        title:"Etna",
+        must:["Excursión al Etna","Teleférico o cráteres","Paisaje volcánico","Vino del Etna o Castelmola al atardecer"],
+        restaurant:{name:"La Taverna dell’Etna",meal:"Cena",reserve:"Sí"},
+        notes:"Día highlight del viaje. Más fresco por la altura."},
+
+      {day:28,date:"23 may",week:4,region:"Cefalù",base:"Cefalù",min:18,max:26,type:["playa","relax"],theme:"sicily",
+        title:"Llegada a Cefalù",
+        must:["Check-in","Playa de Cefalù","Primer paseo por el casco histórico"],
+        restaurant:{name:"Locanda del Marinaio",meal:"Cena",reserve:"Sí"},
+        notes:"Cambio a una base muy cómoda para el final del viaje."},
+      {day:29,date:"24 may",week:5,region:"Cefalù",base:"Cefalù",min:18,max:27,type:["playa","pueblo"],theme:"sicily",
+        title:"Cefalù clásico",
+        must:["Playa","Duomo de Cefalù","Calles del centro histórico"],
+        restaurant:{name:"Restaurante local frente al mar",meal:"Cena",reserve:"No"},
+        notes:"Día fácil y muy disfrutable sin coche."},
+      {day:30,date:"25 may",week:5,region:"Cefalù",base:"Cefalù",min:19,max:27,type:["ciudad","cultura"],theme:"sicily",highlight:true,
+        title:"Excursión a Palermo",
+        must:["Mercado Ballarò o Vucciria","Catedral de Palermo","Centro histórico"],
+        restaurant:{name:"Osteria Ballarò",meal:"Cena",reserve:"Sí"},
+        notes:"Día de ciudad más intenso. Vale mucho la pena por la energía de Palermo."},
+      {day:31,date:"26 may",week:5,region:"Cefalù",base:"Cefalù",min:19,max:27,type:["cultura","ciudad"],theme:"sicily",
+        title:"Monreale",
+        must:["Catedral de Monreale","Mosaicos dorados","Claustro"],
+        restaurant:{name:"Almuerzo local",meal:"Almuerzo",reserve:"No"},
+        notes:"Lo imperdible son los mosaicos; es una visita más corta y muy bonita."},
+      {day:32,date:"27 may",week:5,region:"Cefalù",base:"Cefalù",min:20,max:27,type:["pueblo","naturaleza"],theme:"sicily",highlight:true,
+        title:"Castelbuono",
+        must:["Castillo","Calles del pueblo","Ambiente de montaña en Madonie"],
+        restaurant:{name:"Restaurante local",meal:"Almuerzo o cena",reserve:"No"},
+        notes:"Contraste muy agradable frente a tantos días de costa."},
+      {day:33,date:"28 may",week:5,region:"Cefalù",base:"Cefalù",min:20,max:27,type:["playa","relax"],theme:"sicily",
+        title:"Barco o playa",
+        must:["Salida en barco o playa larga","Tiempo libre","Paseo al atardecer"],
+        restaurant:{name:"Cena libre",meal:"Cena",reserve:"No"},
+        notes:"Día perfecto para repetir lo que más les haya gustado."},
+      {day:34,date:"29 may",week:5,region:"Cefalù",base:"Cefalù",min:20,max:27,type:["relax","playa"],theme:"sicily",
+        title:"Último día relax",
+        must:["Café lento","Compras pequeñas","Última playa","Preparar equipaje"],
+        restaurant:{name:"Cena especial final",meal:"Cena",reserve:"Opcional"},
+        notes:"Conviene dejarlo ligero y bonito, sin grandes desplazamientos."},
+      {day:35,date:"30 may",week:5,region:"Salida",base:"Palermo / aeropuerto",min:0,max:0,type:["relax"],theme:"sicily",
+        title:"Regreso",
+        must:["Traslado al aeropuerto","Vuelo de salida"],
+        restaurant:{name:"—",meal:"—",reserve:"No"},
+        notes:"Revisar tiempo de traslado y devolución del coche si aplica."}
+    ];
+
+    const weekLabels = {
+      1:"Semana 1 · Lago di Garda → Chianti",
+      2:"Semana 2 · Toscana",
+      3:"Semana 3 · Val d’Orcia → Puglia",
+      4:"Semana 4 · Sicilia este",
+      5:"Semana 5 · Cefalù + cierre"
+    };
+    const weekRanges = {
+      1:"26 abr – 2 may",
+      2:"3 may – 9 may",
+      3:"10 may – 16 may",
+      4:"17 may – 23 may",
+      5:"24 may – 30 may"
+    };
+
+    const weeksEl = document.getElementById('weeks');
+    const searchEl = document.getElementById('search');
+    const regionFilterEl = document.getElementById('regionFilter');
+    const typeFilterEl = document.getElementById('typeFilter');
+
+    function cardClass(d){
+      return `${d.theme} ${d.highlight ? 'highlight' : ''}`;
+    }
+
+    function matches(d){
+      const q = searchEl.value.trim().toLowerCase();
+      const region = regionFilterEl.value;
+      const type = typeFilterEl.value;
+      const hay = [
+        d.region,d.base,d.title,d.restaurant.name,...d.must,...d.type
+      ].join(' ').toLowerCase();
+
+      const okQ = !q || hay.includes(q);
+      const okR = !region || d.region === region;
+      const okT = !type || d.type.includes(type);
+      return okQ && okR && okT;
+    }
+
+    function render(){
+      weeksEl.innerHTML = '';
+      for(let w=1; w<=5; w++){
+        const days = trip.filter(d => d.week===w && matches(d));
+        if(!days.length) continue;
+
+        const week = document.createElement('section');
+        week.className = 'week';
+
+        week.innerHTML = `
+          <div class="week-head">
+            <div>
+              <h2>${weekLabels[w]}</h2>
+              <div class="range">${weekRanges[w]}</div>
+            </div>
+            <div class="small">Haz clic en un día para abrir el detalle completo</div>
+          </div>
+          <div class="days">
+            ${days.map(d => `
+              <article class="day ${cardClass(d)}" onclick="openModal(${d.day})">
+                <div class="date">
+                  <div>
+                    <div class="num">${d.date}</div>
+                    <div class="region">${d.region}</div>
+                  </div>
+                  <div class="daynum">Día ${d.day}</div>
+                </div>
+                <div class="base">📍 ${d.base}</div>
+                <div class="temp">🌡️ ${d.min ? `${d.min}° / ${d.max}°` : '—'}</div>
+                <div class="must">
+                  <b>${d.title}</b>
+                  <ul>
+                    ${d.must.slice(0,3).map(m => `<li>${m}</li>`).join('')}
+                  </ul>
+                </div>
+                <div class="meta">
+                  <span class="tag">${d.type.join(' · ')}</span>
+                  <div class="rest">🍝 <b>${d.restaurant.name}</b><br>${d.restaurant.meal} · Reserva: ${d.restaurant.reserve}</div>
+                </div>
+              </article>
+            `).join('')}
+          </div>
+        `;
+        weeksEl.appendChild(week);
+      }
+    }
+
+    function openModal(dayNum){
+      const d = trip.find(x => x.day===dayNum);
+      if(!d) return;
+      document.getElementById('mTitle').textContent = `Día ${d.day} · ${d.date} · ${d.title}`;
+      document.getElementById('mSub').textContent = `Base: ${d.base} · Región: ${d.region} · Temperatura: ${d.min ? `${d.min}° / ${d.max}°` : '—'}`;
+      document.getElementById('mPlan').innerHTML = d.must.map((m,i)=>`
+        <div class="check">
+          <div>${i===0?'⭐':i===1?'📍':'✔️'}</div>
+          <div><b>${m}</b><div class="small">${detailHint(m,d)}</div></div>
+        </div>
+      `).join('');
+      document.getElementById('mRest').innerHTML = `
+        <div class="check">
+          <div>🍝</div>
+          <div>
+            <b>${d.restaurant.name}</b>
+            <div class="small">${d.restaurant.meal}</div>
+            <div class="${d.restaurant.reserve==='Sí' ? 'reserve-yes':'reserve-no'}">Reserva: ${d.restaurant.reserve}</div>
+          </div>
+        </div>
+      `;
+      document.getElementById('mNotes').textContent = d.notes;
+      document.getElementById('modal').classList.add('show');
+    }
+
+    function detailHint(item,d){
+      const hints = {
+        "Castello Scaligero":"Lo más emblemático de Sirmione. Subir a la torre da la mejor vista del lago.",
+        "Grotte di Catullo":"Ruinas romanas con una ubicación espectacular frente al agua.",
+        "Teleférico a Monte Baldo":"Actividad estrella del lago. Muy visual y fácil de recordar.",
+        "Torre de Pisa":"La subida es la experiencia principal si consiguen entrada.",
+        "Galería Uffizi":"Museo clave en Florencia. Conviene comprar entrada anticipada.",
+        "Duomo di Firenze":"El símbolo de Florencia. La cúpula es lo más buscado.",
+        "Piazza del Campo":"Corazón de Siena. Uno de los espacios urbanos más bonitos de Italia.",
+        "Bodega Antinori":"Visita muy recomendable por arquitectura y degustación.",
+        "Trulli del Rione Monti":"La imagen más famosa de Alberobello.",
+        "Catedral de Noto":"La gran postal barroca del día.",
+        "Duomo de Ortigia":"La visita más icónica de Ortigia.",
+        "Teatro Antico di Taormina":"El gran imprescindible de Taormina.",
+        "Isola Bella":"Lo más famoso de la costa de Taormina.",
+        "Excursión al Etna":"Día highlight del viaje. Llevar chaqueta.",
+        "Duomo de Cefalù":"La joya monumental del pueblo."
+      };
+      return hints[item] || d.notes;
+    }
+
+    function closeModal(){
+      document.getElementById('modal').classList.remove('show');
+    }
+
+    searchEl.addEventListener('input',render);
+    regionFilterEl.addEventListener('change',render);
+    typeFilterEl.addEventListener('change',render);
+    document.getElementById('modal').addEventListener('click',e=>{
+      if(e.target.id==='modal') closeModal();
+    });
+
+    render();
+  </script>
 </body>
 </html>
